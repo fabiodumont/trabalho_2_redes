@@ -1,0 +1,40 @@
+Problema
+
+saber quantos  produtos  tem  nas gôndolas e prateleiras à disposição de meus clientes pra repor com mais rapidez e assertividade.
+
+Solução
+
+sistema que controla almoxarifado (onde chegam os caminhões 
+com novos produtos), estoque interno, gôndolas e prateleiras e caixa.  
+
+almoxarifado - usar celular para ler código de barra do produto e inserir no controle de estoque (aplicativo) 
+
+saida do estoque interno - sistema web
+
+caixa - sistema web (diferente da saida do estoque interno) 
+
+Obrigações técnicas 
+
+• Utilização de um sistema de mensageria (Kafka, RabbitMQ e similares). 
+• Banco de dados relacional com MER e documentação própria, para armazenar 
+informações dos produtos, local e estoque que estão. 
+• Banco de dados próprio para armazenar e analisar informações de consumo. Neste caso 
+não pode ser um banco de dados relacional, pode ser qualquer outro tipo que, na análise 
+do grupo, serve para tal tarefa (não-relacional, séries temporais, grafos e etc ...). 
+• Back-end  se  comunica  com  o  front,  exclusivamente,  através  de  micro  serviços  (REST 
+API), usar algum framework conhecido (Ex.: Flask e etc ...) 
+• Aplicativo para smartphone (iOS ou Android). 
+• Para o sistema web usar algum tipo de framework javascript. 
+• Análise de dados deve ser feita em Jupyter (link oficial). Aqui o gestor gostaria de saber: 
+	o Qual produto deve ter mais espaço nas prateleiras. 
+	o Qual produto tem maior rotatividade. 
+	o Temos algum estoque mínimo recomendado?
+	
+Premissas técnicas levantadas com o cliente
+ 
+• Todos os produtos já estão previamente cadastrados (faça como vc achar melhor, mas 
+já tenha tudo em banco de dados pré-cadastrado ao iniciar o sistema). 
+• Pode-se  estabelecer/configurar,  em  código  (hardcoded),  as  quantidades  máximas  e 
+mínimas de estoque interno e de prateleira/gôndola. 
+• Fazer um projeto de UI/UX é importante, pois a operação deve ser bem simples e rápida, 
+os funcionários não podem perder tempo e nem errar nas operações do sistema.  
