@@ -42,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        //dado do codigo de barra sao pegos aqui em result
                         Toast.makeText(MainActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        //chamar a funcao para escrever no banco do estoque
+                        //conexao com a API
+
                     }
                 });
             }
@@ -71,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //assim que aceitar as permissoes
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
