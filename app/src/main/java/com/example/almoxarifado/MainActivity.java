@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //funcao para pegar as permissoes de camera
     private void getPermissoes() {
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.CAMERA) !=
