@@ -8,13 +8,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.zxing.Result;
@@ -25,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST = 1888;
+    TextView tvResult;
+
+    DatabaseReference databaseProdutos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         getPermissoes();
 
+        tvResult = findViewById(R.id.tvResultProd);
+
+        databaseProdutos = FirebaseDatabase.getInstance().getReference("produto");
 
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
@@ -47,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
                         //chamar a funcao para escrever no banco do estoque
                         //conexao com a API
 
+                        tvResult.setText(result.getText().toString());
+                        addProduto(result.getText().toString());
+
+
                     }
                 });
             }
@@ -59,6 +74,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void addProduto(String s){
+        String nome = s;
+
+        //fazer os codigos de produtos minimamente realistas
+
+        int quantidade = 1; //fazer um dialog pedindo a quantidade dps
+
+        if(!TextUtils.isEmpty(nome)){
+
+            String id = databaseProdutos.push().getKey();
+            
+            Produto produto = new Produto(id, nome, quantidade);
+
+            databaseProdutos.child(id).setValue(produto);
+
+            Toast.makeText(this, "Leitura de produto executada com sucesso!", Toast.LENGTH_LONG).show();
+
+        }else{
+            Toast.makeText(this, "Erro na leitura!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     //funcao para pegar as permissoes de camera
     private void getPermissoes() {
@@ -89,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     protected void onResume() {
