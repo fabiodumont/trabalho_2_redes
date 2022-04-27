@@ -7,34 +7,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="674dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutbtn"
+        android:gravity="center"
+        android:paddingTop="20sp"
         android:orientation="vertical">
 
-        <com.budiyev.android.codescanner.CodeScannerView
-            android:id="@+id/scanner_view"
+        <EditText
+            android:id="@+id/etQtd"
             android:layout_width="wrap_content"
-            android:layout_height="611dp"
-            app:autoFocusButtonColor="@android:color/white"
-            app:autoFocusButtonVisible="true"
-            app:flashButtonColor="@android:color/white"
-            app:flashButtonVisible="true"
-            app:frameAspectRatioHeight="1"
-            app:frameAspectRatioWidth="1"
-            app:frameColor="@android:color/white"
-            app:frameCornersRadius="0dp"
-            app:frameCornersSize="50dp"
-            app:frameSize="0.75"
-            app:frameThickness="2dp"
-            app:maskColor="#77000000">
+            android:layout_height="wrap_content"
+            android:hint="Informar a quantidade"
+            android:textSize="20sp"
+            android:text=""
+            android:gravity="center"
+            android:paddingBottom="24sp"/>
 
-        </com.budiyev.android.codescanner.CodeScannerView>
-
-        <TextView
-            android:paddingTop="10sp"
-            android:id="@+id/tvResultProd"
-            android:layout_width="match_parent"
-            android:layout_height="61dp" />
-
+        <Button
+            android:id="@+id/btnScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scannear"/>
 
     </LinearLayout>
 
