@@ -4,26 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
-import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.zxing.Result;
+
+import java.util.HashMap;
 
 public class Scan extends AppCompatActivity {
     private CodeScanner mCodeScanner;
@@ -68,19 +61,22 @@ public class Scan extends AppCompatActivity {
 
         int quantidade = pegarIntent(); //fazer um dialog pedindo a quantidade dps
 
-        if(!TextUtils.isEmpty(nome)){
+        HashMap<String, Object> UpdateProduto = new HashMap<>();
+        UpdateProduto.put("id", id);
+        UpdateProduto.put("nome", nome);
+        UpdateProduto.put("qtd", quantidade);
 
-            String key = databaseProdutos.push().getKey();
+        databaseProdutos = FirebaseDatabase.getInstance().getReference("produtos");
 
-            Produto produto = new Produto(id, nome, quantidade, key);
+        databaseProdutos.child(id).updateChildren(UpdateProduto).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                Toast.makeText(Scan.this, "Estoque atualizado!", Toast.LENGTH_SHORT).show();
 
-            databaseProdutos.child(id).setValue(produto);
+            } else {
+                Toast.makeText(Scan.this, "Erro ao atualizar estoque!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-            Toast.makeText(this, "Leitura de produto executada com sucesso!", Toast.LENGTH_LONG).show();
-
-        }else{
-            Toast.makeText(this, "Erro na leitura!", Toast.LENGTH_SHORT).show();
-        }
 
     }
 
