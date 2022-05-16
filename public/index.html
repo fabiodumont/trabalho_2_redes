@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caixa</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <main>
+        <form id="myForm">
+            <h5>CAIXA</h5><br>
+
+            <label for="prodId">ID produto</label> <br />
+            <input type="text" name="prodId" id="prodId" /> <br />
+
+            <label for="prodQtd">Qtd da compra do produto</label> <br />
+            <input type="text" name="prodQtd" id="prodQtd" /> <br />
+
+            <button class="btn waves-effect waves-light" id="btnUpdate" type="submit" name="update">
+          Comprar
+        </button>
+
+
+        </form>
+    </main>
+    <script src="./functions.js"></script>
+</body>
+
+</html>
