@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +46,6 @@ public class Scan extends AppCompatActivity {
             //chamar a funcao para escrever no banco do estoque
             //conexao com a API
 
-            tvResult.setText(result.getText());
             addProduto(result.getText());
 
 
@@ -53,30 +54,40 @@ public class Scan extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void addProduto(String s){
-        String nome = s.substring(5);
-        String id = s.substring(0,5);
+        int i = s.indexOf('-');
+
+        String id = s.substring(0, i);
+
+        String nome = s.substring(i + 1);
+
+        String local = "estoque";
 
         //fazer os codigos de produtos minimamente realistas
 
         int quantidade = pegarIntent(); //fazer um dialog pedindo a quantidade dps
 
         HashMap<String, Object> UpdateProduto = new HashMap<>();
-        UpdateProduto.put("id", id);
-        UpdateProduto.put("nome", nome);
-        UpdateProduto.put("qtd", quantidade);
+        UpdateProduto.put("prod_id", id);
+        UpdateProduto.put("prod_nome", nome);
+        UpdateProduto.put("prod_local", local);
+        UpdateProduto.put("prod_qtd", quantidade);
 
-        databaseProdutos = FirebaseDatabase.getInstance().getReference("produtos");
+        tvResult.setText("\nID: " + id + "- NOME: " + nome + "- QTD: " + quantidade);
+
+        Log.d("produtos", UpdateProduto.toString());
+
+        databaseProdutos = FirebaseDatabase.getInstance().getReference("produtos_estoque");
 
         databaseProdutos.child(id).updateChildren(UpdateProduto).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Toast.makeText(Scan.this, "Estoque atualizado!", Toast.LENGTH_SHORT).show();
-
             } else {
                 Toast.makeText(Scan.this, "Erro ao atualizar estoque!", Toast.LENGTH_SHORT).show();
             }
         });
-
+        finish();
 
     }
 
