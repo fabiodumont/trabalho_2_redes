@@ -2,29 +2,35 @@ package com.example.almoxarifado;
 
 public class Produto {
 
-    String id;
-    String nome;
-    int qtd;
+    String prod_id;
+    String prod_nome;
+    String prod_local;
+    int prod_qtd;
 
     public Produto(){}
 
 
-    public Produto(String id, String nome, int qtd) {
-        this.id = id;
-        this.nome = nome;
-        this.qtd = qtd;
+    public Produto(String prod_id, String prod_nome, String prod_local, int prod_qtd) {
+        this.prod_id = prod_id;
+        this.prod_nome = prod_nome;
+        this.prod_local = prod_local;
+        this.prod_qtd = prod_qtd;
     }
 
     public String getId() {
-        return id;
+        return prod_id;
     }
 
     public String getNome() {
-        return nome;
+        return prod_nome;
+    }
+
+    public String getLocal() {
+        return prod_local;
     }
 
     public int getQtd() {
-        return qtd;
+        return prod_qtd;
     }
 
 
