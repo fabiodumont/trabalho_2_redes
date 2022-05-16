@@ -43,9 +43,18 @@ public class MainActivity extends AppCompatActivity {
         btnScannear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, Scan.class);
-                i.putExtra("intent_qtd", etQuantidade.getText().toString());
-                startActivity(i);
+                if(etQuantidade.getText().toString().isEmpty()){
+                    Toast.makeText(MainActivity.this, "Insira uma quantidade!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent i = new Intent(MainActivity.this, Scan.class);
+                    i.putExtra("intent_qtd", etQuantidade.getText().toString());
+                    if(Integer.parseInt(etQuantidade.getText().toString()) > 0){
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Insira uma quantidade!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                
             }
         });
     }
