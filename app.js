@@ -3,27 +3,13 @@ const app = express();
 const port = 3000;
 const admin = require("firebase-admin");
 
-//CAIXA PUB 
-
-var mqtt = require("mqtt");
-var client = mqtt.connect("mqtt://localhost:1234");
-var topic = "CAIXA INICIADO";
-var message = "CAIXA!";
-
-client.on("connect", () => {
-  client.publish(topic, message);
-  console.log("Message sent!", message);
-});
-
-//CAIXA PUB 
-
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
   databaseURL: "https://trabalho-2-redes-default-rtdb.firebaseio.com",
 });
 
-// export GOOGLE_APPLICATION_CREDENTIALS="/Users/devvetline/Redes/caixa/trabalho-2-redes-firebase-adminsdk-ffv7z-8ffca671cd.json"
+// necessário realizar o comando export GOOGLE_APPLICATION_CREDENTIALS="{local onde está o arquivo trabalho-2-redes-firebase-adminsdk-ffv7z-8ffca671cd.json}"
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -37,20 +23,12 @@ app.get("/", (req, res) => {
   app.use(express.static(__dirname + "/public"));
 });
 
-/*
-quando for fazer o update eu preciso pegar a quantidade que esta no banco
-pegar a quantidade que ta no formulario
-fazer a conta de quantidade_no_banco - quantidade_no_formulario
-e ai sim fazer o update com essa nova_quantidade
-*/
-
 app.put("/update", (req, res) => {
   //pegando a quantidade que esta no banco
-  //para pegar a quantidade do produto especifico que estou procurando
-  //preciso do id que esta no form
+  //para pegar a quantidade do produto especifico que está sendo procurado
   console.clear();
   console.log("CLICKED UPDATE BUTTON");
-
+  
   var idForm = req.body.prod_id;
   var qtdForm = req.body.prod_qtd;
   var qtdBanco;
@@ -63,18 +41,25 @@ app.put("/update", (req, res) => {
       //pegando a key para fazer o update
       var childKey = childSnapshot.key;
 
-      //com o idForm preciso achar a qtd respectiva
+      //com o idForm é achado a quantidaade respectiva
       if (idForm == childData.prod_id) {
         qtdBanco = childData.prod_qtd;
-
-        qtdUpdated = qtdBanco - qtdForm;
-
-        client.on("connect", () => {
-          client.publish(topic, message);
-          console.log("Message sent!", message);
+        
+        // Sendo realizada a conta na qual e subtraído a quantidade de itens no banco de dados, pela quantidade de iten que foram comprados
+        qtdUpdated = qtdBanco - qtdForm; 
+        
+        // MQTT Publisher ----------------------------
+        var mensageria =  [{'ID Produto': idForm}, {'Quantidade do Produto': qtdForm}];
+        const mensagem = JSON.stringify(mensageria)
+        var mqtt = require('mqtt');
+        var client  = mqtt.connect('mqtt://192.168.1.134');
+        client.on('connect', function () {
+          client.publish('ESTOQUE', mensagem);
+          console.log('Message Sent');
         });
-
-        prodRef
+       // MQTT Publisher ----------------------------
+        
+       prodRef
           .child(childKey)
           .update({ prod_qtd: qtdUpdated, prod_local: "prateleira" });
         console.log(
@@ -85,11 +70,14 @@ app.put("/update", (req, res) => {
           "\nNova quantidade: ",
           qtdUpdated
         );
+
       } else {
         qtdUpdated = 0;
       }
     });
   });
+
+  
 });
 
 app.listen(port, () => {
