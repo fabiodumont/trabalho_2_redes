@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "35798381249",
-    "project_id": "trabalho-2-redes",
-    "storage_bucket": "trabalho-2-redes.appspot.com"
+    "project_number": "",
+    "project_id": "",
+    "storage_bucket": ""
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:35798381249:android:a26dd3bc4fc2afdc19da40",
+        "mobilesdk_app_id": "0",
         "android_client_info": {
           "package_name": "com.example.almoxarifado"
         }
       },
       "oauth_client": [
         {
-          "client_id": "35798381249-v0m6esjeknfcsk5qb08fa4ldc5psoh76.apps.googleusercontent.com",
+          "client_id": "",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAbQi86D6s2kjnFeg5UAANEg0hqb772CzU"
+          "current_key": ""
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "35798381249-v0m6esjeknfcsk5qb08fa4ldc5psoh76.apps.googleusercontent.com",
+              "client_id": "",
               "client_type": 3
             }
           ]
